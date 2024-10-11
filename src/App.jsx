@@ -1,5 +1,19 @@
+import Hero from "./components/Hero";
+import HomeCards from "./components/HomeCards";
+import JobListings from "./components/JobListings";
+import Navbar from "./components/Navbar";
+import ViewAllJobs from "./components/ViewAllJobs";
+
 const App = () => {
-  return <div className="underline text-5xl mt-10 text-center">React Jobs</div>;
+  return (
+    <>
+      <Navbar />
+      <Hero />
+      <HomeCards />
+      <JobListings />
+      <ViewAllJobs />
+    </>
+  );
 };
 
 export default App;
