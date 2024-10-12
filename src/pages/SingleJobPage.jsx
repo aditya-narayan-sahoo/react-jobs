@@ -1,10 +1,24 @@
+import PropTypes from "prop-types";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { Link, useLoaderData } from "react-router-dom";
-const SingleJobPage = () => {
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+const SingleJobPage = ({ deleteJob }) => {
   const job = useLoaderData();
   const { type, title, location, description, salary } = job;
   const { name, companyDescription, contactEmail, contactPhone } = job.company;
+  const navigate = useNavigate();
+  const onDeleteClick = (jobId) => {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this listing?"
+    );
+    if (!confirm) return;
+    deleteJob(jobId);
+    toast.success("Job Deleted Successfully!");
+    navigate("/jobs");
+  };
+
   /*
     Old way of fetching data and displaying it.
     const [job, setJob] = useState(null);
@@ -78,7 +92,7 @@ const SingleJobPage = () => {
                   {contactPhone}
                 </p>
               </div>
-              {/* <!-- Manage --> */}
+
               <div className="bg-white p-6 rounded-lg shadow-md mt-6">
                 <h3 className="text-xl font-bold mb-6">Manage Job</h3>
                 <Link
@@ -87,7 +101,10 @@ const SingleJobPage = () => {
                 >
                   Edit Job
                 </Link>
-                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block">
+                <button
+                  onClick={() => onDeleteClick(job.id)}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
+                >
                   Delete Job
                 </button>
               </div>
@@ -97,6 +114,10 @@ const SingleJobPage = () => {
       </section>
     </>
   );
+};
+
+SingleJobPage.propTypes = {
+  deleteJob: PropTypes.func,
 };
 
 export default SingleJobPage;
